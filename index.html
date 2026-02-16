@@ -989,16 +989,16 @@
       let isFlipped = false;
       let isLetterOpen = false;
 
-      const createFlower = (x, y, delay, color) => {
-        const flower = document.createElement("div");
-        flower.className = "flower";
-        flower.style.left = `${x}px`;
-        flower.style.top = `${y}px`;
+      const createBouquetItem = (x, y, delay, color, type = "flower") => {
+        const item = document.createElement("div");
+        item.className = "flower"; // Using existing class for base styles
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
 
-        const petalColor = color;
-        const centerColor = "#f9dc5c";
-
-        flower.innerHTML = `
+        if (type === "flower") {
+          const petalColor = color;
+          const centerColor = "#f9dc5c";
+          item.innerHTML = `
                 <svg viewBox="0 0 100 100">
                     <defs>
                         <radialGradient id="grad-${delay}" cx="50%" cy="50%" r="50%">
@@ -1029,17 +1029,42 @@
                     <circle cx="50" cy="50" r="10" fill="${centerColor}" />
                     <circle cx="50" cy="50" r="4" fill="#d4a373" opacity="0.3" />
                 </svg>`;
-        flowerContainer.appendChild(flower);
+        } else if (type === "strawberry") {
+          item.innerHTML = `
+                <svg viewBox="0 0 100 100">
+                    <!-- Leaf Crown -->
+                    <path d="M50,25 L35,10 L45,20 L50,5 L55,20 L65,10 L50,25" fill="#2d6a4f" />
+                    <!-- Body -->
+                    <path d="M50,95 Q25,75 22,45 Q20,20 50,20 Q80,20 78,45 Q75,75 50,95" fill="#ff4d6d" />
+                    <!-- Seeds -->
+                    <circle cx="40" cy="40" r="1.5" fill="#ffb703" opacity="0.8" />
+                    <circle cx="60" cy="45" r="1.5" fill="#ffb703" opacity="0.8" />
+                    <circle cx="50" cy="55" r="1.5" fill="#ffb703" opacity="0.8" />
+                    <circle cx="35" cy="65" r="1.5" fill="#ffb703" opacity="0.8" />
+                    <circle cx="65" cy="70" r="1.5" fill="#ffb703" opacity="0.8" />
+                    <circle cx="50" cy="80" r="1.5" fill="#ffb703" opacity="0.8" />
+                </svg>`;
+        } else if (type === "blueberry") {
+          item.innerHTML = `
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="55" r="30" fill="#3a4d8f" />
+                    <circle cx="40" cy="45" r="10" fill="#5a6dbf" opacity="0.4" />
+                    <!-- Top Crown -->
+                    <path d="M40,30 Q50,20 60,30 L55,35 L50,30 L45,35 Z" fill="#1e2a5a" />
+                </svg>`;
+        }
 
-        gsap.to(flower, {
-          scale: 1,
+        flowerContainer.appendChild(item);
+
+        gsap.to(item, {
+          scale: type === "blueberry" ? 0.7 : 1,
           duration: 1.5,
           delay: delay,
           ease: "elastic.out(1, 0.5)",
         });
 
-        gsap.to(flower, {
-          y: "+=15",
+        gsap.to(item, {
+          y: type === "flower" ? "+=15" : "+=10",
           x: `random(-5, 5)`,
           rotation: "random(-10, 10)",
           duration: 2 + Math.random(),
@@ -1061,15 +1086,18 @@
         "#e76f51",
       ];
       const positions = [
-        { x: 110, y: 20 },
-        { x: 60, y: 50 },
-        { x: 160, y: 50 },
-        { x: 30, y: 100 },
-        { x: 115, y: 110 },
-        { x: 200, y: 100 },
-        { x: 70, y: 160 },
-        { x: 160, y: 160 },
-        { x: 115, y: 70 },
+        { x: 110, y: 20, type: "flower" },
+        { x: 60, y: 50, type: "flower" },
+        { x: 160, y: 50, type: "flower" },
+        { x: 30, y: 100, type: "strawberry" },
+        { x: 115, y: 110, type: "flower" },
+        { x: 200, y: 100, type: "flower" },
+        { x: 70, y: 160, type: "strawberry" },
+        { x: 160, y: 160, type: "blueberry" },
+        { x: 115, y: 70, type: "flower" },
+        { x: 190, y: 170, type: "strawberry" },
+        { x: 40, y: 180, type: "blueberry" },
+        { x: 120, y: 185, type: "flower" },
       ];
 
       function createSparkle() {
@@ -1095,7 +1123,13 @@
 
       window.onload = () => {
         positions.forEach((pos, i) =>
-          createFlower(pos.x, pos.y, i * 0.15, colors[i % colors.length]),
+          createBouquetItem(
+            pos.x,
+            pos.y,
+            i * 0.15,
+            colors[i % colors.length],
+            pos.type,
+          ),
         );
         for (let i = 0; i < 15; i++) createSparkle();
 
