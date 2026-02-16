@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Anniversary Sayangku Feby 💕</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-rose: #c9184a;
+        --dark-rose: #a4133c;
+        --soft-rose: #ffccd5;
+        --gold-accent: #d4a373;
+        --warm-cream: #fdf2e9;
+        --wrap-paper: #f5ebe0;
+        --wrap-shadow: #e9ecef;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: radial-gradient(
+          circle at center,
+          #fff1f3 0%,
+          #ffccd5 50%,
+          #ff8fa3 100%
+        );
+        min-height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0;
+        padding: 60px 20px 20px;
+      }
+
+      /* Fixed Background Sparkles */
+      .sparkles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* 3D Scene Setup */
+      .scene {
+        width: 320px;
+        height: 480px;
+        perspective: 2000px;
+        position: relative;
+        z-index: 10;
+        transition: transform 0.5s;
+      }
+
+      @media (max-width: 400px) {
+        .scene {
+          transform: scale(0.85);
+        }
+      }
+
+      .scene.on-top {
+        z-index: 100;
+      }
+
+      .bouquet-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+      }
+
+      .bouquet-front,
+      .bouquet-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 24px;
+      }
+
+      .bouquet-back {
+        transform: rotateY(180deg);
+        justify-content: center;
+      }
+
+      /* Background layers */
+      .back-bg {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.9);
+        border: 6px solid white;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        z-index: 1;
+        transition: filter 0.5s;
+        backface-visibility: hidden;
+      }
+
+      /* Blur selectively */
+      .blur-elements .bouquet-front,
+      .blur-elements .back-bg,
+      .blur-elements .envelope-base,
+      .blur-elements .wrapper-container {
+        filter: blur(8px);
+      }
+
+      /* Bouquet Visuals */
+      .wrapper-container {
+        position: absolute;
+        bottom: -10px;
+        width: 240px;
+        height: 300px;
+        z-index: 5;
+        filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.1));
+        backface-visibility: hidden;
+      }
+
+      .flower-area {
+        width: 300px;
+        height: 300px;
+        position: relative;
+        z-index: 10;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backface-visibility: hidden;
+      }
+
+      .flower {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        transform: scale(0);
+        filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Letter Styles */
+      .envelope {
+        width: 260px;
+        height: 180px;
+        position: relative;
+        z-index: 20;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+      }
+
+      .envelope-base {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        z-index: 10;
+        border-radius: 4px;
+        transition: filter 0.5s;
+        backface-visibility: hidden;
+      }
+
+      .envelope-base::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          transparent 48%,
+          #f0f0f0 50%,
+          transparent 52%
+        );
+        opacity: 0.5;
+      }
+
+      .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fdfdfd;
+        clip-path: polygon(0 0, 100% 0, 50% 60%);
+        z-index: 30;
+        transform-origin: top;
+        transition: filter 0.5s;
+        border-bottom: 1px solid #eee;
+        backface-visibility: hidden;
+      }
+
+      .letter-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+        background: #fffdfa;
+        background-image: radial-gradient(#eceae4 1px, transparent 0);
+        background-size: 20px 20px;
+        padding: 40px 25px;
+        z-index: 5;
+        overflow-y: auto;
+        border: 1px solid #e8e6e1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        filter: blur(0px) !important;
+        backface-visibility: hidden;
+        border-radius: 4px;
+        transition: none;
+      }
+
+      .letter-content.letter-open {
+        position: fixed;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%);
+        width: clamp(300px, 92vw, 580px) !important;
+        height: clamp(450px, 85vh, 800px) !important;
+        padding: clamp(20px, 4vw, 50px) clamp(15px, 4vw, 45px) !important;
+        z-index: 9000 !important;
+        border-radius: 16px;
+        box-shadow:
+          0 25px 80px rgba(0, 0, 0, 0.15),
+          0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+
+      .no-scroll {
+        overflow: hidden !important;
+      }
+
+      /* Decorative Border */
+      .letter-content::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 1px solid #f2e8cf;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .letter-text {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95rem;
+        color: #4a4a4a;
+        opacity: 0;
+        transform: translateY(15px);
+        line-height: 1.8;
+        width: 100%;
+      }
+
+      .letter-text h2 {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.2rem;
+        color: var(--primary-rose);
+        margin-bottom: 1.5rem;
+      }
+
+      .letter-text p {
+        margin-bottom: 1.2rem;
+      }
+
+      .letter-text .signature {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.8rem;
+        color: var(--primary-rose);
+        margin-top: 2rem;
+      }
+
+      /* Close button inside letter */
+      .letter-close-btn {
+        margin-top: 2rem;
+        padding: 10px 36px;
+        border: 2px solid var(--primary-rose);
+        background: transparent;
+        color: var(--primary-rose);
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      .letter-close-btn:hover {
+        background: var(--primary-rose);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(201, 24, 74, 0.25);
+      }
+
+      /* Wax Seal Style */
+      .wax-seal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 45px;
+        height: 45px;
+        background: var(--dark-rose);
+        border-radius: 50%;
+        z-index: 35;
+        box-shadow:
+          0 4px 8px rgba(0, 0, 0, 0.3),
+          inset 0 0 10px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1rem;
+        border: 1px solid #800020;
+        pointer-events: none;
+        backface-visibility: hidden;
+      }
+
+      .wax-seal::after {
+        content: "💕";
+        opacity: 0.9;
+      }
+
+      .bouquet-back p {
+        backface-visibility: hidden;
+      }
+
+      /* Buttons */
+      .btn-container {
+        display: flex;
+        gap: 1rem;
+        margin-top: 3rem;
+        position: relative;
+        z-index: 150;
+        transition:
+          filter 0.5s,
+          opacity 0.5s;
+      }
+
+      .btn {
+        background: white;
+        color: var(--primary-rose);
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(201, 24, 74, 0.15);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        border: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(201, 24, 74, 0.25);
+        border-color: var(--soft-rose);
+      }
+
+      .btn-secondary {
+        background: var(--primary-rose);
+        color: white;
+        display: none;
+      }
+
+      .btn-secondary:hover {
+        background: var(--dark-rose);
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(43, 8, 20, 0.2);
+        backdrop-filter: blur(12px);
+        display: none;
+        z-index: 80;
+        opacity: 0;
+      }
+
+      .anniv-decor {
+        position: absolute;
+        font-size: 2rem;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ============ GALLERY SECTION ============ */
+      .gallery-section {
+        width: 100%;
+        max-width: 900px;
+        margin: 80px auto 60px;
+        padding: 0 20px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .gallery-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.8rem;
+        color: var(--primary-rose);
+        text-align: center;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 10px rgba(201, 24, 74, 0.15);
+      }
+
+      .gallery-subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 2.5rem;
+        font-style: italic;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      /* Desktop: Items 1 & 2 are 2x2 hero images, Item 12 spans 2 to balance last row */
+      @media (min-width: 1025px) {
+        .gallery-item:nth-child(1),
+        .gallery-item:nth-child(2) {
+          grid-column: span 2;
+          grid-row: span 2;
+        }
+        .gallery-item:nth-child(12) {
+          grid-column: span 2;
+          aspect-ratio: 2/1;
+        }
+      }
+
+      /* Tablet: 3 columns, Item 1 spans full width (3 columns) */
+      @media (min-width: 641px) and (max-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .gallery-item:nth-child(1) {
+          grid-column: span 3;
+          aspect-ratio: 3/1;
+        }
+      }
+
+      /* Mobile: 2 columns, Item 1 spans full width (2 columns) */
+      @media (max-width: 640px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        .gallery-item:nth-child(1) {
+          grid-column: span 2;
+          aspect-ratio: 2/1;
+        }
+      }
+
+      .gallery-item {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 1;
+        background: linear-gradient(135deg, var(--soft-rose), #fff);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05) translateY(-5px) !important;
+        box-shadow: 0 12px 35px rgba(201, 24, 74, 0.2);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .gallery-item .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(164, 19, 60, 0.6) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+        display: flex;
+        align-items: flex-end;
+        padding: 16px;
+      }
+
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+
+      .gallery-overlay span {
+        color: white;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.2rem;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .lightbox.active {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-width: 90vw;
+        max-height: 85vh;
+        border-radius: 12px;
+        box-shadow: 0 0 60px rgba(201, 24, 74, 0.3);
+        object-fit: contain;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 2.5rem;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s;
+      }
+
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+      }
+
+      .lightbox-caption {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.4rem;
+        text-align: center;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Gallery placeholder (no photos yet) */
+      .gallery-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        min-height: 100px;
+        color: var(--primary-rose);
+        font-size: 2.5rem;
+        opacity: 0.6;
+      }
+
+      .gallery-placeholder span {
+        font-size: 0.75rem;
+        font-family: "Poppins", sans-serif;
+        color: #999;
+        margin-top: 8px;
+      }
+
+      /* Scroll hint */
+      .scroll-hint {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 200;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        animation: bounceDown 1.5s infinite;
+      }
+
+      .scroll-hint span {
+        font-size: 0.75rem;
+        color: var(--primary-rose);
+        font-weight: 600;
+      }
+
+      .scroll-hint .arrow {
+        width: 24px;
+        height: 24px;
+        border-right: 3px solid var(--primary-rose);
+        border-bottom: 3px solid var(--primary-rose);
+        transform: rotate(45deg);
+        opacity: 0.7;
+      }
+
+      @keyframes bounceDown {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(8px);
+        }
+      }
+
+      /* Anniversary footer */
+      .anniv-footer {
+        text-align: center;
+        padding: 40px 20px 60px;
+        color: var(--primary-rose);
+        font-family: "Dancing Script", cursive;
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .anniv-footer .heart-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        color: var(--soft-rose);
+      }
+
+      .anniv-footer .heart-divider::before,
+      .anniv-footer .heart-divider::after {
+        content: "";
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--soft-rose),
+          transparent
+        );
+      }
+
+      /* Mobile Adjustments */
+      @media (max-width: 640px) {
+        #main-title {
+          font-size: 2.2rem !important;
+          margin-bottom: 2rem !important;
+        }
+        .btn-container {
+          flex-direction: column;
+          width: 80%;
+          gap: 0.8rem;
+        }
+        .btn {
+          padding: 12px 24px;
+          justify-content: center;
+        }
+        .letter-text h2 {
+          font-size: 1.8rem !important;
+        }
+        .letter-text p {
+          font-size: 0.85rem !important;
+        }
+        .gallery-title {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (max-width: 375px) {
+        .letter-content {
+          padding: 30px 15px !important;
+        }
+        .letter-text h2 {
+          font-size: 1.5rem !important;
+          margin-bottom: 1rem !important;
+        }
+        .letter-text p {
+          font-size: 0.8rem !important;
+          line-height: 1.5 !important;
+        }
+        .signature {
+          margin-top: 1rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sparkles" id="sparkle-container"></div>
+    <div class="overlay" id="overlay"></div>
+
+    <h1
+      class="text-4xl md:text-5xl font-bold text-rose-700 mb-12 text-center drop-shadow-md z-10"
+      id="main-title"
+      style="font-family: &quot;Dancing Script&quot;, cursive"
+    >
+      Buket Virtual Lagi nih 💐
+    </h1>
+
+    <div class="scene" id="main-scene">
+      <div class="bouquet-container" id="bouquet">
+        <!-- SISI DEPAN (BUNGA) -->
+        <div class="bouquet-front">
+          <div class="flower-area" id="flower-container"></div>
+          <div class="wrapper-container">
+            <svg viewBox="0 0 200 250" style="width: 100%; height: 100%">
+              <defs>
+                <linearGradient
+                  id="paperGrad"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style="stop-color: #f5ebe0; stop-opacity: 1"
+                  />
+                  <stop
+                    offset="100%"
+                    style="stop-color: #edded3; stop-opacity: 1"
+                  />
+                </linearGradient>
+              </defs>
+              <path
+                d="M20,50 L180,50 L160,250 L40,250 Z"
+                fill="url(#paperGrad)"
+              />
+              <path d="M20,50 L100,250 L0,100 Z" fill="#e8d5c8" opacity="0.8" />
+              <path
+                d="M180,50 L100,250 L200,100 Z"
+                fill="#dfc8bb"
+                opacity="0.8"
+              />
+              <rect
+                x="50"
+                y="190"
+                width="100"
+                height="20"
+                rx="10"
+                fill="#c9184a"
+              />
+              <path
+                d="M85,180 Q100,160 115,180 Q130,200 100,210 Q70,200 85,180"
+                fill="#e05780"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- SISI BELAKANG (SURAT) -->
+        <div class="bouquet-back">
+          <div class="back-bg"></div>
+
+          <div class="envelope" id="envelope">
+            <div class="envelope-base"></div>
+            <div class="envelope-flap" id="flap"></div>
+            <div class="wax-seal" id="seal"></div>
+            <div class="letter-content" id="letter">
+              <div class="letter-text" id="anniv-msg">
+                <h2>Happy Anniversary 3 Tahun Sayaaaang 💕</h2>
+                <p>
+                  Gak kerasa ya udah selama ini kita bersama. Ga nyangka dari
+                  yang awalnya sekedar kenal, tapi jadi pacaran dan bertahan
+                  sampe 3 tahun.
+                </p>
+                <p>
+                  Makasih udah selalu sabar, selalu ada, dan selalu jadi orang
+                  yang paling hadir saat aku butuh sesuatu. Semoga kita terus
+                  bersama, terus saling sayang, saling memaafkan, saling
+                  mengerti, dan terus bikin kenangan-kenangan indah lainnya.
+                  Lopyuuu sayaanngg, Happy anniversary!!!!!!!, semoga cinta kita
+                  makin kuat dan makin sayang satu sama lainnya.
+                </p>
+
+                <div class="signature">
+                  <p class="text-xs font-sans italic text-gray-400 m-0">
+                    Lopyuuu sayaannggkuu imutku cantikku,
+                  </p>
+                  <p class="m-0">Oleh Uden Tamvan 💗</p>
+                </div>
+
+                <button
+                  class="letter-close-btn"
+                  id="letter-close-btn"
+                  onclick="closeLetter()"
+                >
+                  Tutup Surat 💌
+                </button>
+              </div>
+            </div>
+          </div>
+          <p
+            class="text-rose-400 mt-12 font-bold text-sm uppercase tracking-widest relative z-10 animate-pulse"
+          >
+            Pesan Spesial Bini Gweh
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-container" id="btn-container">
+      <button class="btn" onclick="toggleRotate()" id="btn-rotate">
+        <span>Putar Buket</span>
+      </button>
+      <button
+        class="btn btn-secondary"
+        onclick="toggleLetter()"
+        id="btn-letter"
+      >
+        <span>Buka Surat</span>
+      </button>
+    </div>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section" id="gallery-section">
+      <h2 class="gallery-title">Momen Kita Berdua 💑</h2>
+      <p class="gallery-subtitle">
+        Kenang-kenangan kita berdua nich, maaf ya kalo ada foto yang kurang kamu
+        suka hwhw
+      </p>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0159.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>Mirror Selfie paling cool😎</span>
+          </div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0212.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Lope Lope❤️</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0336.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Jadi pengen stik 21</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0377.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Ultah Siapa nich</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0382.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Potobut nich</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20250918-WA0398.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Meng ropang</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20251006-WA0107.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Ciee Converse</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20251021-WA0005.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Kondangan Date</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20251129-WA0047.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Nobar Bareng</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20260104-WA0179.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Pulle lagi, pulle lagi</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20260125-WA0103.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Mengantar abang</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img
+            src="assets/IMG-20260202-WA0050.jpg"
+            alt="Momen kita"
+            loading="lazy"
+          />
+          <div class="gallery-overlay"><span>Potobut paling kece</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="assets/IMG_3024.JPG" alt="Momen kita" loading="lazy" />
+          <div class="gallery-overlay"><span>Panas-panas hepi</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="anniv-footer" id="anniv-footer">
+      <div class="heart-divider">💕</div>
+      <p>Uby (Udin Feby) — Cinta Mati Selamanya</p>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <div class="lightbox-close">&times;</div>
+      <img id="lightbox-img" src="" alt="Gallery Photo" />
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+      const flowerContainer = document.getElementById("flower-container");
+      const bouquet = document.getElementById("bouquet");
+      const scene = document.getElementById("main-scene");
+      const envelope = document.getElementById("envelope");
+      const flap = document.getElementById("flap");
+      const letter = document.getElementById("letter");
+      const overlay = document.getElementById("overlay");
+      const btnLetter = document.getElementById("btn-letter");
+      const btnRotate = document.getElementById("btn-rotate");
+      const sparkleContainer = document.getElementById("sparkle-container");
+
+      let isFlipped = false;
+      let isLetterOpen = false;
+
+      const createFlower = (x, y, delay, color) => {
+        const flower = document.createElement("div");
+        flower.className = "flower";
+        flower.style.left = `${x}px`;
+        flower.style.top = `${y}px`;
+
+        const petalColor = color;
+        const centerColor = "#f9dc5c";
+
+        flower.innerHTML = `
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <radialGradient id="grad-${delay}" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:${petalColor};stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:${gsap.utils.interpolate(petalColor, "#000", 0.2)};stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
+                    ${Array.from({ length: 6 })
+                      .map(
+                        (_, i) => `
+                        <ellipse cx="50" cy="30" rx="15" ry="25" 
+                            fill="url(#grad-${delay})" 
+                            transform="rotate(${i * 60} 50 50)" 
+                            opacity="0.9" />
+                    `,
+                      )
+                      .join("")}
+                    ${Array.from({ length: 6 })
+                      .map(
+                        (_, i) => `
+                        <ellipse cx="50" cy="35" rx="10" ry="20" 
+                            fill="${petalColor}" 
+                            transform="rotate(${i * 60 + 30} 50 50)" 
+                            opacity="0.8" />
+                    `,
+                      )
+                      .join("")}
+                    <circle cx="50" cy="50" r="10" fill="${centerColor}" />
+                    <circle cx="50" cy="50" r="4" fill="#d4a373" opacity="0.3" />
+                </svg>`;
+        flowerContainer.appendChild(flower);
+
+        gsap.to(flower, {
+          scale: 1,
+          duration: 1.5,
+          delay: delay,
+          ease: "elastic.out(1, 0.5)",
+        });
+
+        gsap.to(flower, {
+          y: "+=15",
+          x: `random(-5, 5)`,
+          rotation: "random(-10, 10)",
+          duration: 2 + Math.random(),
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      };
+
+      // Romantic rose/burgundy color palette for anniversary
+      const colors = [
+        "#c9184a",
+        "#ff758f",
+        "#ffccd5",
+        "#e05780",
+        "#ff4d6d",
+        "#d4a373",
+        "#f4a261",
+        "#e76f51",
+      ];
+      const positions = [
+        { x: 110, y: 20 },
+        { x: 60, y: 50 },
+        { x: 160, y: 50 },
+        { x: 30, y: 100 },
+        { x: 115, y: 110 },
+        { x: 200, y: 100 },
+        { x: 70, y: 160 },
+        { x: 160, y: 160 },
+        { x: 115, y: 70 },
+      ];
+
+      function createSparkle() {
+        const s = document.createElement("div");
+        s.className = "anniv-decor";
+        s.innerHTML = ["💕", "✨", "🌹", "💗", "🥀", "💐"][
+          Math.floor(Math.random() * 6)
+        ];
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.opacity = "0";
+        sparkleContainer.appendChild(s);
+
+        gsap.to(s, {
+          opacity: Math.random() * 0.5 + 0.2,
+          scale: Math.random() * 0.5 + 0.5,
+          duration: 2 + Math.random() * 2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      }
+
+      window.onload = () => {
+        positions.forEach((pos, i) =>
+          createFlower(pos.x, pos.y, i * 0.15, colors[i % colors.length]),
+        );
+        for (let i = 0; i < 15; i++) createSparkle();
+
+        gsap.to(".scene", {
+          y: "-=10",
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      };
+
+      function toggleRotate() {
+        if (isLetterOpen) closeLetter();
+
+        isFlipped = !isFlipped;
+        const rotation = isFlipped ? 180 : 0;
+
+        gsap.to(bouquet, {
+          rotateY: rotation,
+          duration: 1.2,
+          ease: "power3.inOut",
+          onStart: () => {
+            if (isFlipped) {
+              btnRotate.innerHTML = "<span>Lihat Buket</span>";
+              gsap.to("#main-title", {
+                opacity: 0,
+                y: -20,
+                duration: 0.4,
+                onComplete: () => {
+                  document.getElementById("main-title").innerText =
+                    "Ayo Buka Suratnya! 💌";
+                  gsap.to("#main-title", { opacity: 1, y: 0, duration: 0.4 });
+                },
+              });
+              btnLetter.style.display = "flex";
+              gsap.fromTo(
+                btnLetter,
+                { opacity: 0, scale: 0.8 },
+                { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)" },
+              );
+            } else {
+              btnRotate.innerHTML = "<span>Putar Bouquet</span>";
+              gsap.to("#main-title", {
+                opacity: 0,
+                y: -20,
+                duration: 0.4,
+                onComplete: () => {
+                  document.getElementById("main-title").innerText =
+                    "Buket Spesial Untukmu Sayang 💐";
+                  gsap.to("#main-title", { opacity: 1, y: 0, duration: 0.4 });
+                },
+              });
+              gsap.to(btnLetter, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.4,
+                onComplete: () => (btnLetter.style.display = "none"),
+              });
+            }
+          },
+        });
+      }
+
+      function toggleLetter() {
+        if (!isLetterOpen) openLetter();
+        else closeLetter();
+      }
+
+      function openLetter() {
+        isLetterOpen = true;
+        document.body.classList.add("no-scroll");
+        bouquet.classList.add("blur-elements");
+        scene.classList.add("on-top");
+        overlay.style.display = "block";
+        btnLetter.innerHTML = "<span>Tutup Surat</span>";
+
+        // Blur and hide the button row behind the letter
+        const btnContainer = document.getElementById("btn-container");
+        btnContainer.style.filter = "blur(8px)";
+        btnContainer.style.opacity = "0.3";
+        btnContainer.style.zIndex = "1";
+
+        const tl = gsap.timeline();
+
+        tl.to(overlay, { opacity: 1, duration: 0.6 })
+          .to("#seal", { opacity: 0, scale: 0.5, duration: 0.3 }, "-=0.2")
+          .to(
+            flap,
+            { rotateX: 180, duration: 0.6, ease: "power2.inOut" },
+            "-=0.2",
+          )
+          .set(flap, { zIndex: 0 })
+          .add(() => {
+            // Move letter to body to escape parent transforms
+            document.body.appendChild(letter);
+            letter.classList.add("letter-open");
+          })
+          .fromTo(
+            letter,
+            {
+              opacity: 0,
+              scale: 0.6,
+              xPercent: -50,
+              yPercent: -50,
+              left: "50%",
+              top: "50%",
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              ease: "back.out(1.4)",
+            },
+          )
+          .to(
+            "#anniv-msg",
+            { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 },
+            "-=0.3",
+          )
+          .to(
+            ".letter-close-btn",
+            { opacity: 1, y: 0, duration: 0.4 },
+            "-=0.2",
+          );
+      }
+
+      function closeLetter() {
+        isLetterOpen = false;
+        btnLetter.innerHTML = "<span>Buka Surat</span>";
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            overlay.style.display = "none";
+            bouquet.classList.remove("blur-elements");
+            scene.classList.remove("on-top");
+
+            // Remove fixed positioning
+            letter.classList.remove("letter-open");
+            // Move back to envelope parent
+            envelope.appendChild(letter);
+            document.body.classList.remove("no-scroll");
+
+            gsap.set(letter, {
+              zIndex: 5,
+              clearProps:
+                "scale,opacity,width,height,padding,top,left,transform,position",
+            });
+
+            // Restore button row
+            const btnContainer = document.getElementById("btn-container");
+            btnContainer.style.filter = "none";
+            btnContainer.style.opacity = "1";
+            btnContainer.style.zIndex = "150";
+          },
+        });
+
+        tl.to(".letter-close-btn", { opacity: 0, y: 10, duration: 0.2 })
+          .to("#anniv-msg", { opacity: 0, y: 10, duration: 0.3 }, "-=0.1")
+          .to(letter, {
+            scale: 0.7,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.in",
+          })
+          .set(flap, { zIndex: 30 })
+          .to(
+            flap,
+            { rotateX: 0, duration: 0.5, ease: "power2.inOut" },
+            "-=0.1",
+          )
+          .to("#seal", { opacity: 1, scale: 1, duration: 0.3 }, "-=0.2")
+          .to(overlay, { opacity: 0, duration: 0.4 }, "-=0.2");
+      }
+
+      overlay.addEventListener("click", closeLetter);
+
+      // ========== LIGHTBOX ==========
+      function openLightbox(item) {
+        const img = item.querySelector("img");
+        if (!img) return; // No real image yet
+
+        const lightbox = document.getElementById("lightbox");
+        const lbImg = document.getElementById("lightbox-img");
+        const lbCaption = document.getElementById("lightbox-caption");
+
+        lbImg.src = img.src;
+        const caption = item.querySelector(".gallery-overlay span");
+        lbCaption.textContent = caption ? caption.textContent : "";
+
+        lightbox.classList.add("active");
+        gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+        gsap.fromTo(
+          lbImg,
+          { scale: 0.8 },
+          { scale: 1, duration: 0.5, ease: "back.out(1.5)" },
+        );
+      }
+
+      function closeLightbox() {
+        const lightbox = document.getElementById("lightbox");
+        gsap.to(lightbox, {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => lightbox.classList.remove("active"),
+        });
+      }
+    </script>
+  </body>
+</html>
